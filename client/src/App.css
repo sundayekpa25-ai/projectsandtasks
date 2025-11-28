@@ -1,0 +1,35 @@
+.App {
+  min-height: 100vh;
+}
+
+/* Color scheme for task statuses */
+.status-initiated {
+  background-color: #8B4513;
+  color: white;
+}
+
+.status-submitted {
+  background-color: #9370DB;
+  color: white;
+}
+
+.status-rejected {
+  background-color: #DC143C;
+  color: white;
+}
+
+.status-pm-reviewed {
+  background-color: #4169E1;
+  color: white;
+}
+
+.status-client-reviewed {
+  background-color: #228B22;
+  color: white;
+}
+
+.status-completed {
+  background-color: #228B22;
+  color: white;
+}
+
