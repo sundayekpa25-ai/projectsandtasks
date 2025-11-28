@@ -47,6 +47,26 @@ const Tasks = () => {
     }
   };
 
+  useEffect(() => {
+    fetchTasks();
+    const interval = setInterval(() => {
+      if (!showSubmitModal && !showReviewModal) {
+        fetchTasks();
+      }
+    }, 15000);
+
+    return () => clearInterval(interval);
+  }, [showSubmitModal, showReviewModal, taskId]);
+
+  // Syncing updated tasks
+  useEffect(() => {
+    if (taskId) {
+      const task = tasks.find(t => t._id === taskId);
+      if (task) setSelectedTask(task);
+    }
+  }, [taskId, tasks]);
+
+
   const handleSubmitWork = async (e) => {
     e.preventDefault();
     if (submitting) return;
