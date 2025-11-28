@@ -24,7 +24,7 @@ export const NotificationProvider = ({ children }) => {
       const token = localStorage.getItem('token');
       if (token) {
         // Initialize socket connection - use same base URL as axios
-        const socketURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+        const socketURL = process.env.REACT_APP_API_URL || 'https://projectsandtasks-backend.vercel.app' || 'http://localhost:5000';
         const newSocket = io(socketURL, {
           auth: { token }
         });
