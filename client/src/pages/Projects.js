@@ -23,10 +23,16 @@ const Projects = () => {
   const [logoPreview, setLogoPreview] = useState(null);
 
   useEffect(() => {
-    fetchProjects();
+  fetchProjects();
     if (user?.role === 'admin' || user?.role === 'project_manager') {
       fetchClients();
     }
+
+    const interval = setInterval(() => {
+      fetchProjects();
+    }, 15000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const fetchProjects = async () => {
