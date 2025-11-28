@@ -30,7 +30,15 @@ const Users = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+      const interval = setInterval(() => {
+        if (!showCreateModal) {
+          fetchUsers();
+        }
+      }, 30000);
+
+      return () => clearInterval(interval);
+    }, [showCreateModal]);
+  // }, []);
 
   const fetchUsers = async () => {
     try {
