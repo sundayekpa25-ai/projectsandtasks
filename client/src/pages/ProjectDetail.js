@@ -37,25 +37,53 @@ const ProjectDetail = () => {
     dueDate: ''
   });
 
-  useEffect(() => {
-    fetchProjectData();
-    if (socket) {
-      socket.emit('join-project', id);
-      socket.on('new-message', handleNewMessage);
-      return () => {
-        socket.emit('leave-project', id);
-        socket.off('new-message');
-      };
-    }
-  }, [id, socket]);
+  // useEffect(() => {
+  //   fetchProjectData();
+  //   if (socket) {
+  //     socket.emit('join-project', id);
+  //     socket.on('new-message', handleNewMessage);
+  //     return () => {
+  //       socket.emit('leave-project', id);
+  //       socket.off('new-message');
+  //     };
+  //   }
+  // }, [id, socket]);
 
-  const fetchProjectData = async () => {
+  // const fetchProjectData = async () => {
+  //   try {
+  //     const [projectRes, tasksRes, commentsRes, filesRes] = await Promise.all([
+  //       axios.get(`/api/projects/${id}`),
+  //       axios.get(`/api/tasks?projectId=${id}`),
+  //       axios.get(`/api/comments/project/${id}`),
+  //       axios.get(`/api/upload/project/${id}`).catch(() => ({ data: [] })) // Handle if no files
+  //     ]);
+
+  //     setProject(projectRes.data);
+  //     setTasks(tasksRes.data);
+  //     setComments(commentsRes.data);
+  //     setFiles(filesRes.data || []);
+
+  //     if (user?.role === 'admin' || user?.role === 'project_manager') {
+  //       fetchAvailableMembers();
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching project data:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  useEffect(() => {
+  let pollingInterval;
+
+  // Function to fetch all project-related data
+  const fetchData = async () => {
     try {
       const [projectRes, tasksRes, commentsRes, filesRes] = await Promise.all([
         axios.get(`/api/projects/${id}`),
         axios.get(`/api/tasks?projectId=${id}`),
         axios.get(`/api/comments/project/${id}`),
-        axios.get(`/api/upload/project/${id}`).catch(() => ({ data: [] })) // Handle if no files
+        axios.get(`/api/upload/project/${id}`).catch(() => ({ data: [] }))
       ]);
 
       setProject(projectRes.data);
@@ -72,6 +100,36 @@ const ProjectDetail = () => {
       setLoading(false);
     }
   };
+
+  // Initial fetch
+  fetchData();
+
+  pollingInterval = setInterval(fetchData, 15000);
+
+  // Socket updates
+  const handleNewMessage = (data) => {
+    setChatMessages(prev => {
+      // Avoid duplicates
+      if (prev.some(msg => msg._id === data._id)) return prev;
+      return [...prev, data];
+    });
+  };
+
+  if (socket) {
+    socket.emit('join-project', id);
+    socket.on('new-message', handleNewMessage);
+  }
+
+  // Cleanup
+  return () => {
+    clearInterval(pollingInterval);
+    if (socket) {
+      socket.emit('leave-project', id);
+      socket.off('new-message', handleNewMessage);
+    }
+  };
+}, [id, socket, user]);
+
 
   const fetchAvailableMembers = async () => {
     try {
