@@ -55,7 +55,7 @@ const Login = () => {
         {companyLogo && (
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <img
-              src={`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}${companyLogo.path}`}
+              src={`${process.env.REACT_APP_API_URL || 'https://projectsandtasks-backend.vercel.app'}${companyLogo.path}`}
               alt="Company logo"
               style={{
                 maxWidth: '120px',
