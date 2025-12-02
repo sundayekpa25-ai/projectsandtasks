@@ -16,8 +16,8 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        imgSrc: ["'self'", "data:", "blob:", process.env.CLIENT_URL || "http://localhost:3000"],
-        connectSrc: ["'self'", process.env.CLIENT_URL || "http://localhost:3000"],
+        imgSrc: ["'self'", "data:", "blob:", process.env.CLIENT_URL || "https://projectsandtasks-frontend.vercel.app" || "http://localhost:3000"],
+        connectSrc: ["'self'", process.env.CLIENT_URL || "https://projectsandtasks-frontend.vercel.app" || "http://localhost:3000"],
         scriptSrc: ["'self'", "'unsafe-inline'"],
         styleSrc: ["'self'", "'unsafe-inline'"],
       },
@@ -26,7 +26,7 @@ app.use(
 );
 
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: process.env.CLIENT_URL || "https://projectsandtasks-frontend.vercel.app" || 'http://localhost:3000',
   credentials: true
 }));
 
@@ -79,7 +79,7 @@ const server = app.listen(PORT, () => {
 // Socket.io for real-time features
 const io = require('socket.io')(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: process.env.CLIENT_URL || "https://projectsandtasks-frontend.vercel.app" || 'http://localhost:3000',
     methods: ['GET', 'POST']
   }
 });
