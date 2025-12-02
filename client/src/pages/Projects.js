@@ -165,7 +165,7 @@ const Projects = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1 }}>
                   {project.clientLogo && (
                     <img
-                      src={`${process.env.REACT_APP_API_URL || 'http://localhost:5000'}${project.clientLogo.path}`}
+                      src={`${process.env.REACT_APP_API_URL || 'https://projectsandtasks-backend.vercel.app' || 'http://localhost:5000'}${project.clientLogo.path}`}
                       alt={`${project.client?.name || 'Client'} logo`}
                       style={{
                         width: '40px',
