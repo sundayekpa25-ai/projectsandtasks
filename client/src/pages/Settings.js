@@ -26,7 +26,7 @@ const Settings = () => {
       setSettings(response.data);
       setCompanyName(response.data.companyName || 'GIC Projects');
       if (response.data.companyLogo && response.data.companyLogo.path) {
-        setLogoPreview(`${process.env.REACT_APP_API_URL || 'https://projectsandtasks-backend.vercel.app' || 'https://projectsandtasks-backend.vercel.app' || 'http://localhost:5000'}${response.data.companyLogo.path}`);
+        setLogoPreview(`${process.env.REACT_APP_API_URL || 'https://projectsandtasks-backend.vercel.app' || 'http://localhost:5000'}${response.data.companyLogo.path}`);
       }
     } catch (error) {
       console.error('Error fetching settings:', error);
